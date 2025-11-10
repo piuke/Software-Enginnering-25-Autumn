@@ -1,0 +1,19 @@
+@startuml 用户下单交易流程 - 时序图
+title 用户下单交易流程 - 时序图
+
+actor Buyer
+participant "商品页面" as UI
+participant "订单服务" as OrderService
+participant "支付服务" as PaymentService
+participant "卖家系统" as SellerSystem
+
+Buyer -> UI : 浏览并选择商品
+UI -> OrderService : 创建订单()
+OrderService -> PaymentService : 请求支付()
+PaymentService -> Buyer : 显示支付界面
+Buyer -> PaymentService : 确认支付
+PaymentService -> OrderService : 支付结果(成功)
+OrderService -> SellerSystem : 通知发货
+SellerSystem -> OrderService : 更新发货状态
+OrderService -> Buyer : 通知交易完成
+@enduml

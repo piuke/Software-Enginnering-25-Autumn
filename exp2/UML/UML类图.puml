@@ -1,0 +1,92 @@
+@startuml 二次元网络商场系统 - 类图
+title 二次元网络商场系统 - 类图
+
+'-------------------
+' 定义主要类
+'-------------------
+class User {
+    +userID: int
+    +username: string
+    +password: string
+    +email: string
+    +isVerified: bool
+    +login()
+    +updateProfile()
+    +sendMessage()
+}
+
+class Seller {
+    +sellerID: int
+    +shopName: string
+    +addProduct()
+    +editProduct()
+}
+
+class Product {
+    +productID: int
+    +title: string
+    +description: string
+    +price: float
+    +category: string
+    +auctionable: bool
+    +upload()
+    +delete()
+}
+
+class Order {
+    +orderID: int
+    +buyerID: int
+    +sellerID: int
+    +productID: int
+    +status: string
+    +createOrder()
+    +confirmReceipt()
+}
+
+class Auction {
+    +auctionID: int
+    +productID: int
+    +startPrice: float
+    +currentBid: float
+    +deadline: datetime
+    +placeBid()
+}
+
+class Message {
+    +msgID: int
+    +senderID: int
+    +receiverID: int
+    +content: string
+    +send()
+}
+
+class Report {
+    +reportID: int
+    +reporterID: int
+    +targetID: int
+    +type: string
+    +status: string
+    +submitReport()
+    +reviewResult()
+}
+
+class Admin {
+    +adminID: int
+    +username: string
+    +reviewReport()
+    +banUser()
+    +removeProduct()
+}
+
+'-------------------
+' 定义关系
+'-------------------
+User "1" -- "many" Order : 下单
+Seller "1" -- "many" Product : 发布
+Order "1" --> "1" Product : 购买
+Product "1" -- "0..1" Auction : 可能关联拍卖
+User "1" -- "many" Message : 发送/接收
+User "1" -- "many" Report : 举报
+Report "1" --> "1" Admin : 审核
+
+@enduml
