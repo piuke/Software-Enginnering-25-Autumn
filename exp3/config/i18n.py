@@ -12,7 +12,7 @@ class I18n:
     """国际化管理类"""
     
     # 支持的语言列表
-    SUPPORTED_LANGUAGES = ['zh_CN', 'en_US']
+    SUPPORTED_LANGUAGES = ['zh_CN', 'en_US', 'ja_JP']
     
     # 默认语言
     DEFAULT_LANGUAGE = 'zh_CN'
@@ -152,7 +152,8 @@ class I18n:
 # 语言名称映射
 LANGUAGE_NAMES = {
     'zh_CN': '简体中文',
-    'en_US': 'English'
+    'en_US': 'English',
+    'ja_JP': '日本語'
 }
 
 

@@ -55,7 +55,7 @@ class AnimeShoppingMall:
                 print(f"2. {t('user.login')}")
                 print(f"3. {t('product.browse_products')}")
                 print(f"4. {t('product.search_products')}")
-                print(f"L. 切换语言 / Switch Language")
+                print(f"L. {t('system.switch_language')}")
                 print(f"0. {t('common.exit')}")
             else:
                 print(f"1. {t('product.browse_products')}")
@@ -67,7 +67,7 @@ class AnimeShoppingMall:
                 print(f"7. {t('seller.seller_functions')}")
                 print(f"8. {t('report.report')}")
                 print(f"9. {t('user.logout')}")
-                print(f"L. 切换语言 / Switch Language")
+                print(f"L. {t('system.switch_language')}")
                 print(f"0. {t('common.exit')}")
             
             choice = input(f"\n{t('common.please_select')}: ").strip()
@@ -117,16 +117,20 @@ class AnimeShoppingMall:
         print("=" * 50)
         print("1. 简体中文 (Simplified Chinese)")
         print("2. English")
+        print("3. 日本語 (Japanese)")
         print(f"0. {t('common.back')}")
         
         choice = input(f"\n{t('common.please_select')} / Please select: ").strip()
         
         if choice == '1':
             set_language('zh_CN')
-            print("✓ 已切换到简体中文")
+            print(f"✓ {t('system.language_switched_zh')}")
         elif choice == '2':
             set_language('en_US')
-            print("✓ Switched to English")
+            print(f"✓ {t('system.language_switched_en')}")
+        elif choice == '3':
+            set_language('ja_JP')
+            print(f"✓ {t('system.language_switched_ja')}")
         elif choice == '0':
             return
         else:

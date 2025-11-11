@@ -113,8 +113,10 @@
       "thank_you": "感谢使用,再见!",
       "feature_not_implemented": "功能待实现...",
       "language_selection": "语言选择",
+      "switch_language": "切换语言",
       "language_switched_zh": "已切换到简体中文",
       "language_switched_en": "Switched to English",
+      "language_switched_ja": "日本語に切り替えました",
       "invalid_choice_bilingual": "无效选择",
       "framework_complete": "目前已完成数据模型、服务层和数据库的框架搭建"
     },
@@ -239,8 +241,10 @@
       "thank_you": "Thank you!",
       "feature_not_implemented": "Feature not implemented yet...",
       "language_selection": "Language Selection",
+      "switch_language": "Switch Language",
       "language_switched_zh": "已切换到简体中文",
       "language_switched_en": "Switched to English",
+      "language_switched_ja": "日本語に切り替えました",
       "invalid_choice_bilingual": "Invalid choice",
       "framework_complete": "Data models, service layer, and database framework have been completed"
     },
@@ -249,6 +253,134 @@
       "by_category": "Browse by Category",
       "ongoing_auctions": "Ongoing Auctions",
       "personal_center": "Personal Center"
+    }
+  },
+  "ja_JP": {
+    "common": {
+      "success": "成功",
+      "failed": "失敗",
+      "error": "エラー",
+      "warning": "警告",
+      "info": "情報",
+      "yes": "はい",
+      "no": "いいえ",
+      "confirm": "確認",
+      "cancel": "キャンセル",
+      "back": "戻る",
+      "exit": "終了",
+      "welcome": "ようこそ",
+      "please_select": "選択してください",
+      "invalid_choice": "無効な選択です。もう一度お試しください"
+    },
+    "user": {
+      "username": "ユーザー名",
+      "password": "パスワード",
+      "email": "メールアドレス",
+      "register": "登録",
+      "login": "ログイン",
+      "logout": "ログアウト",
+      "profile": "プロフィール",
+      "register_success": "✓ 登録成功！ユーザーID: {user_id}",
+      "register_failed": "✗ 登録失敗: {error}",
+      "login_success": "✓ ログイン成功！ようこそ {username}",
+      "login_failed": "✗ ログイン失敗: {error}",
+      "logout_success": "ログアウトしました",
+      "is_seller": "出品者として登録しますか？",
+      "shop_name": "ショップ名",
+      "user_not_found": "ユーザーが見つかりません: {identifier}",
+      "invalid_username": "無効なユーザー名: {username}",
+      "invalid_email": "無効なメールアドレス: {email}",
+      "invalid_password": "パスワードが要件を満たしていません: {reason}",
+      "user_already_exists": "ユーザー名 {username} またはメールアドレス {email} は既に登録されています",
+      "authentication_failed": "ユーザー名またはパスワードが正しくありません",
+      "password_wrong": "パスワードが間違っています"
+    },
+    "product": {
+      "product": "商品",
+      "products": "商品一覧",
+      "name": "商品名",
+      "price": "価格",
+      "stock": "在庫",
+      "category": "カテゴリー",
+      "description": "説明",
+      "browse_products": "商品を閲覧",
+      "search_products": "商品を検索",
+      "add_product": "商品を出品",
+      "edit_product": "商品を編集",
+      "delete_product": "商品を削除",
+      "product_not_found": "商品が見つかりません: {product_id}",
+      "insufficient_stock": "商品 {product_name} の在庫が不足しています (在庫: {available}, 必要: {requested})"
+    },
+    "order": {
+      "order": "注文",
+      "orders": "注文一覧",
+      "my_orders": "マイ注文",
+      "create_order": "注文する",
+      "order_status": "注文状態",
+      "order_not_found": "注文が見つかりません: {order_id}",
+      "invalid_order_status": "{current_status} から {target_status} への状態変更はできません"
+    },
+    "auction": {
+      "auction": "オークション",
+      "browse_auctions": "オークションを閲覧",
+      "participate_auction": "オークションに参加",
+      "bid": "入札"
+    },
+    "message": {
+      "messages": "メッセージ",
+      "send_message": "メッセージを送信",
+      "inbox": "受信箱"
+    },
+    "report": {
+      "report": "通報",
+      "report_user": "ユーザーを通報",
+      "report_product": "商品を通報"
+    },
+    "favorite": {
+      "my_favorites": "お気に入り",
+      "add_to_favorites": "お気に入りに追加",
+      "remove_from_favorites": "お気に入りから削除"
+    },
+    "seller": {
+      "seller_functions": "出品者機能",
+      "seller_menu": "出品者メニュー",
+      "my_shop": "マイショップ",
+      "manage_products": "商品管理",
+      "manage_orders": "注文管理"
+    },
+    "permission": {
+      "permission_denied": "権限がありません: {action}",
+      "not_seller": "この操作は出品者ユーザーのみ実行できます"
+    },
+    "menu": {
+      "main_menu": "メインメニュー",
+      "user_menu": "ユーザーメニュー",
+      "seller_menu": "出品者メニュー",
+      "admin_menu": "管理者メニュー"
+    },
+    "system": {
+      "banner": "アニメショッピングモールシステム",
+      "welcome_message": "アニメショッピングモールシステムへようこそ！",
+      "system_info": "これはUML設計に基づいた完全なシステムフレームワークです",
+      "interrupted": "プログラムがユーザーによって中断されました",
+      "error_occurred": "エラーが発生しました: {error}",
+      "database_error": "データベース接続に失敗しました: {reason}",
+      "not_logged_in": "ログインしていません",
+      "thank_you": "ありがとうございました！",
+      "feature_not_implemented": "機能は未実装です...",
+      "language_selection": "言語選択",
+      "switch_language": "言語を変更",
+      "language_switched_zh": "已切换到简体中文",
+      "language_switched_en": "Switched to English",
+      "language_switched_ja": "日本語に切り替えました",
+      "invalid_choice_bilingual": "無効な選択",
+      "framework_complete": "データモデル、サービス層、データベースフレームワークが完成しました"
+    },
+    "feature": {
+      "all_products": "すべての商品",
+      "by_category": "カテゴリー別に閲覧",
+      "ongoing_auctions": "開催中のオークション",
+      "personal_center": "個人センター"
     }
   }
 }
