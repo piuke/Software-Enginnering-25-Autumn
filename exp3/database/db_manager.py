@@ -4,6 +4,7 @@ Database Manager - 数据库管理器
 """
 
 import sqlite3
+import os
 from typing import Optional, List, Dict, Any
 from contextlib import contextmanager
 
@@ -21,6 +22,12 @@ class DatabaseManager:
         Args:
             db_path: 数据库文件路径
         """
+        # 如果是相对路径，将其放在 exp3 目录下
+        if not os.path.isabs(db_path):
+            # 获取当前文件所在目录（database/），再向上一级到 exp3/
+            base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            db_path = os.path.join(base_dir, db_path)
+        
         self.db_path = db_path
         self.init_database()
     

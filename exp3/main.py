@@ -117,7 +117,11 @@ class AnimeShoppingMall:
             shop_name = input("店铺名称: ").strip()
         
         # TODO: 调用用户服务注册
-        print("注册功能待实现...")
+        user_id = self.user_service.register(username, password, email, is_seller, shop_name)
+        if user_id:
+            print(f"注册成功! 用户ID: {user_id}.")
+        else:
+            print(f"注册失败,请重试. Error_id: {user_id}")
     
     def login_menu(self):
         """用户登录菜单"""

@@ -43,8 +43,44 @@ class UserService:
         # 2. 密码加密
         # 3. 创建User或Seller对象
         # 4. 保存到数据库
-        pass
-    
+        from utils.validators import Validator
+        from utils.helpers import Helper
+        
+        # check validations
+        if not Validator.validate_username(username):
+            print("Invalid username.")
+            return None
+        if not Validator.validate_email(email):
+            print("Invalid email.")
+            return None
+        is_valid_pwd, err = Validator.validate_password(password)
+        if not is_valid_pwd:
+            print(f"Invalid password. {err}")
+            return None
+        
+        # check existing user
+        existing_user = self.db.execute_query(
+            "SELECT user_id FROM users WHERE username=? OR email=?",
+            (username, email)
+        )
+        if existing_user:
+            return None
+        
+        # encrypt password
+        pwd = Helper.hash_password(password)
+        user_id = self.db.execute_insert(
+            "INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
+            (username, email, pwd)
+        )
+
+        if is_seller and shop_name:
+            self.db.execute_insert(
+                "INSERT INTO sellers (user_id, shop_name) VALUES (?, ?)",
+                (user_id, shop_name)
+            )
+
+        return user_id
+
     def login(self, username: str, password: str) -> Optional[Dict]:
         """
         用户登录
