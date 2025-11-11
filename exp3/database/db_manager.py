@@ -33,6 +33,7 @@ class DatabaseManager:
             sqlite3.Connection: 数据库连接对象
         """
         conn = sqlite3.connect(self.db_path)
+        conn.execute("PRAGMA foreign_keys = ON;")
         conn.row_factory = sqlite3.Row  # 使用Row对象,支持按列名访问
         try:
             yield conn
