@@ -15,6 +15,7 @@ from services import (
 from models import User, Seller, Product, Order, Auction, Message, Report, Admin
 from utils import Validator, Helper
 from config import SYSTEM_CONFIG, PRODUCT_CATEGORIES
+from config.i18n import get_i18n, t, set_language
 
 
 class AnimeShoppingMall:
@@ -30,11 +31,12 @@ class AnimeShoppingMall:
         self.message_service = MessageService(self.db_manager)
         self.report_service = ReportService(self.db_manager)
         self.current_user = None
+        self.i18n = get_i18n()
         
     def display_banner(self):
         """显示系统标题"""
         print("=" * 50)
-        print(f"{SYSTEM_CONFIG['app_name']}")
+        print(t('system.banner'))
         print(f"版本: {SYSTEM_CONFIG['version']}")
         print("=" * 50)
     
@@ -43,34 +45,38 @@ class AnimeShoppingMall:
         while True:
             print("\n" + "=" * 50)
             if self.current_user:
-                print(f"当前用户: {self.current_user['username']}")
+                print(f"{t('user.username')}: {self.current_user['username']}")
             else:
-                print("未登录")
+                print(t('system.not_logged_in'))
             print("=" * 50)
             
             if not self.current_user:
-                print("1. 用户注册")
-                print("2. 用户登录")
-                print("3. 浏览商品")
-                print("4. 搜索商品")
-                print("0. 退出系统")
+                print(f"1. {t('user.register')}")
+                print(f"2. {t('user.login')}")
+                print(f"3. {t('product.browse_products')}")
+                print(f"4. {t('product.search_products')}")
+                print(f"L. 切换语言 / Switch Language")
+                print(f"0. {t('common.exit')}")
             else:
-                print("1. 浏览商品")
-                print("2. 搜索商品")
-                print("3. 我的收藏")
-                print("4. 我的订单")
-                print("5. 消息中心")
-                print("6. 个人中心")
-                print("7. 卖家功能")
-                print("8. 举报功能")
-                print("9. 注销登录")
-                print("0. 退出系统")
+                print(f"1. {t('product.browse_products')}")
+                print(f"2. {t('product.search_products')}")
+                print(f"3. {t('favorite.my_favorites')}")
+                print(f"4. {t('order.my_orders')}")
+                print(f"5. {t('message.messages')}")
+                print(f"6. {t('user.profile')}")
+                print(f"7. {t('seller.seller_functions')}")
+                print(f"8. {t('report.report')}")
+                print(f"9. {t('user.logout')}")
+                print(f"L. 切换语言 / Switch Language")
+                print(f"0. {t('common.exit')}")
             
-            choice = input("\n请选择功能: ").strip()
+            choice = input(f"\n{t('common.please_select')}: ").strip()
             
             if choice == '0':
-                print("感谢使用,再见!")
+                print(t('system.thank_you'))
                 sys.exit(0)
+            elif choice.upper() == 'L':
+                self.language_menu()
             elif not self.current_user:
                 if choice == '1':
                     self.register_menu()
@@ -102,112 +108,133 @@ class AnimeShoppingMall:
                 elif choice == '9':
                     self.logout()
                 else:
-                    print("无效选择,请重试")
+                    print(t('common.invalid_choice'))
+    
+    def language_menu(self):
+        """语言切换菜单"""
+        print("\n" + "=" * 50)
+        print(f"{t('system.language_selection')} / Language Selection")
+        print("=" * 50)
+        print("1. 简体中文 (Simplified Chinese)")
+        print("2. English")
+        print(f"0. {t('common.back')}")
+        
+        choice = input(f"\n{t('common.please_select')} / Please select: ").strip()
+        
+        if choice == '1':
+            set_language('zh_CN')
+            print("✓ 已切换到简体中文")
+        elif choice == '2':
+            set_language('en_US')
+            print("✓ Switched to English")
+        elif choice == '0':
+            return
+        else:
+            print(f"{t('system.invalid_choice_bilingual')} / Invalid choice")
     
     def register_menu(self):
         """用户注册菜单"""
-        print("\n--- 用户注册 ---")
-        username = input("用户名: ").strip()
-        password = input("密码: ").strip()
-        email = input("邮箱: ").strip()
+        print(f"\n--- {t('user.register')} ---")
+        username = input(f"{t('user.username')}: ").strip()
+        password = input(f"{t('user.password')}: ").strip()
+        email = input(f"{t('user.email')}: ").strip()
         
-        is_seller = input("是否注册为卖家? (y/n): ").strip().lower() == 'y'
+        is_seller_input = input(f"{t('user.is_seller')} (y/n): ").strip().lower()
+        is_seller = is_seller_input == 'y'
         shop_name = None
         if is_seller:
-            shop_name = input("店铺名称: ").strip()
+            shop_name = input(f"{t('user.shop_name')}: ").strip()
         
-        # TODO: 调用用户服务注册
-        user_id = self.user_service.register(username, password, email, is_seller, shop_name)
-        if user_id:
-            print(f"注册成功! 用户ID: {user_id}.")
-        else:
-            print(f"注册失败,请重试. Error_id: {user_id}")
+        try:
+            user_id = self.user_service.register(username, password, email, is_seller, shop_name)
+            print(t('user.register_success', user_id=user_id))
+        except Exception as e:
+            print(t('user.register_failed', error=str(e)))
     
     def login_menu(self):
         """用户登录菜单"""
-        print("\n--- 用户登录 ---")
-        username = input("用户名: ").strip()
-        password = input("密码: ").strip()
+        print(f"\n--- {t('user.login')} ---")
+        username = input(f"{t('user.username')}: ").strip()
+        password = input(f"{t('user.password')}: ").strip()
         
-        # TODO: 调用用户服务登录
-        user = self.user_service.login(username, password)
-        if user:
+        try:
+            user = self.user_service.login(username, password)
             self.current_user = user
-            print(f"登录成功! 欢迎 {user['username']}.")
-        else:
-            print("登录失败,用户名或密码错误.")
+            print(t('user.login_success', username=user['username']))
+        except Exception as e:
+            print(t('user.login_failed', error=str(e)))
     
     def logout(self):
         """注销登录"""
         self.current_user = None
-        print("已注销登录")
+        print(t('user.logout_success'))
     
     def browse_products_menu(self):
         """浏览商品菜单"""
-        print("\n--- 浏览商品 ---")
-        print("1. 全部商品")
-        print("2. 按分类浏览")
-        print("3. 正在拍卖")
+        print(f"\n--- {t('product.browse_products')} ---")
+        print(f"1. {t('feature.all_products')}")
+        print(f"2. {t('feature.by_category')}")
+        print(f"3. {t('feature.ongoing_auctions')}")
         
-        choice = input("请选择: ").strip()
+        choice = input(f"{t('common.please_select')}: ").strip()
         # TODO: 实现浏览商品功能
-        print("浏览商品功能待实现...")
+        print(t('system.feature_not_implemented'))
     
     def search_products_menu(self):
         """搜索商品菜单"""
-        print("\n--- 搜索商品 ---")
-        keyword = input("请输入搜索关键词: ").strip()
+        print(f"\n--- {t('product.search_products')} ---")
+        keyword = input(f"{t('common.please_select')}: ").strip()
         # TODO: 实现搜索功能
-        print("搜索功能待实现...")
+        print(t('system.feature_not_implemented'))
     
     def favorites_menu(self):
         """收藏菜单"""
-        print("\n--- 我的收藏 ---")
+        print(f"\n--- {t('favorite.my_favorites')} ---")
         # TODO: 实现收藏功能
-        print("收藏功能待实现...")
+        print(t('system.feature_not_implemented'))
     
     def orders_menu(self):
         """订单菜单"""
-        print("\n--- 我的订单 ---")
+        print(f"\n--- {t('order.my_orders')} ---")
         # TODO: 实现订单功能
-        print("订单功能待实现...")
+        print(t('system.feature_not_implemented'))
     
     def messages_menu(self):
         """消息菜单"""
-        print("\n--- 消息中心 ---")
+        print(f"\n--- {t('message.messages')} ---")
         # TODO: 实现消息功能
-        print("消息功能待实现...")
+        print(t('system.feature_not_implemented'))
     
     def profile_menu(self):
         """个人中心菜单"""
-        print("\n--- 个人中心 ---")
+        print(f"\n--- {t('feature.personal_center')} ---")
         # TODO: 实现个人中心功能
-        print("个人中心功能待实现...")
+        print(t('system.feature_not_implemented'))
     
     def seller_menu(self):
         """卖家功能菜单"""
-        print("\n--- 卖家功能 ---")
-        print("1. 发布商品")
-        print("2. 我的商品")
-        print("3. 创建拍卖")
-        print("4. 订单管理")
+        print(f"\n--- {t('seller.seller_functions')} ---")
+        print(f"1. {t('product.add_product')}")
+        print(f"2. {t('seller.manage_products')}")
+        print(f"3. {t('auction.auction')}")
+        print(f"4. {t('seller.manage_orders')}")
         
-        choice = input("请选择: ").strip()
+        choice = input(f"{t('common.please_select')}: ").strip()
         # TODO: 实现卖家功能
-        print("卖家功能待实现...")
+        print(t('system.feature_not_implemented'))
     
     def report_menu(self):
         """举报功能菜单"""
-        print("\n--- 举报功能 ---")
+        print(f"\n--- {t('report.report')} ---")
         # TODO: 实现举报功能
-        print("举报功能待实现...")
+        print(t('system.feature_not_implemented'))
     
     def run(self):
         """运行系统"""
         self.display_banner()
-        print("\n欢迎使用二次元网络商场系统!")
-        print("这是一个基于UML设计实现的完整系统框架")
-        print("目前已完成数据模型、服务层和数据库的框架搭建")
+        print(f"\n{t('system.welcome_message')}")
+        print(t('system.system_info'))
+        print(t('system.framework_complete'))
         self.main_menu()
 
 
@@ -217,9 +244,9 @@ def main():
         app = AnimeShoppingMall()
         app.run()
     except KeyboardInterrupt:
-        print("\n\n程序被用户中断")
+        print(f"\n\n{t('system.interrupted')}")
     except Exception as e:
-        print(f"\n发生错误: {e}")
+        print(t('system.error_occurred', error=str(e)))
         if SYSTEM_CONFIG['debug']:
             import traceback
             traceback.print_exc()

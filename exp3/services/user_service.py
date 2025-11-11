@@ -6,6 +6,14 @@ User Service - 用户服务层
 from typing import Optional, List, Dict
 from models.user import User
 from models.seller import Seller
+from utils.exceptions import (
+    InvalidUsernameError,
+    InvalidEmailError,
+    InvalidPasswordError,
+    UserAlreadyExistsError,
+    UserNotFoundError,
+    AuthenticationError
+)
 
 
 class UserService:
@@ -24,7 +32,7 @@ class UserService:
         self.db = db_manager
     
     def register(self, username: str, password: str, email: str,
-                is_seller: bool = False, shop_name: str = None) -> Optional[int]:
+                is_seller: bool = False, shop_name: str = None) -> int:
         """
         用户注册
         
@@ -36,35 +44,37 @@ class UserService:
             shop_name: 店铺名称(卖家必填)
             
         Returns:
-            Optional[int]: 成功返回用户ID,失败返回None
+            int: 成功返回用户ID
+            
+        Raises:
+            InvalidUsernameError: 用户名格式不正确
+            InvalidEmailError: 邮箱格式不正确
+            InvalidPasswordError: 密码不符合要求
+            UserAlreadyExistsError: 用户名或邮箱已被注册
         """
-        # TODO: 实现注册逻辑
-        # 1. 验证用户名和邮箱是否已存在
-        # 2. 密码加密
-        # 3. 创建User或Seller对象
-        # 4. 保存到数据库
         from utils.validators import Validator
         from utils.helpers import Helper
         
-        # check validations
+        # 验证用户名
         if not Validator.validate_username(username):
-            print("Invalid username.")
-            return None
+            raise InvalidUsernameError(username)
+        
+        # 验证邮箱
         if not Validator.validate_email(email):
-            print("Invalid email.")
-            return None
+            raise InvalidEmailError(email)
+        
+        # 验证密码
         is_valid_pwd, err = Validator.validate_password(password)
         if not is_valid_pwd:
-            print(f"Invalid password. {err}")
-            return None
+            raise InvalidPasswordError(err)
         
-        # check existing user
+        # 检查用户是否已存在
         existing_user = self.db.execute_query(
             "SELECT user_id FROM users WHERE username=? OR email=?",
             (username, email)
         )
         if existing_user:
-            return None
+            raise UserAlreadyExistsError(username, email)
         
         # encrypt password
         pwd = Helper.hash_password(password)
@@ -81,7 +91,7 @@ class UserService:
 
         return user_id
 
-    def login(self, username: str, password: str) -> Optional[Dict]:
+    def login(self, username: str, password: str) -> Dict:
         """
         用户登录
         
@@ -90,29 +100,27 @@ class UserService:
             password: 密码
             
         Returns:
-            Optional[Dict]: 成功返回用户信息,失败返回None
+            Dict: 成功返回用户信息
+            
+        Raises:
+            UserNotFoundError: 用户不存在
+            AuthenticationError: 密码错误
         """
-        # TODO: 实现登录逻辑
-        # 1. 查询用户
-        # 2. 验证密码
-        # 3. 返回用户信息
-
-        # query user info
+        # 查询用户
         users = self.db.execute_query(
             "SELECT * FROM users WHERE username=?",
             (username,)
         )
         if not users:
-            print("User not found.")
-            return None
+            raise UserNotFoundError(username)
         
         user = users[0]  # execute_query 返回列表，取第一个元素
 
-        # verify password
+        # 验证密码
         from utils.helpers import Helper
+        from config.i18n import t
         if not Helper.verify_password(password, user['password']):
-            print("Invalid password.")
-            return None
+            raise AuthenticationError(t('user.password_wrong'))
 
         return user
 
@@ -127,8 +135,18 @@ class UserService:
             Optional[User]: 用户对象
         """
         # TODO: 实现获取用户逻辑
-        pass
-    
+        from models.user import User
+
+        users = self.db.execute_query(
+            "SELECT * FROM users WHERE user_id=?",
+            (user_id,)
+        )
+        if not users:
+            return None
+
+        user_data = users[0]
+        return User(user_data['username'], user_data['password'], user_data['email'])
+
     def update_profile(self, user_id: int, profile_data: dict) -> bool:
         """
         更新用户资料
