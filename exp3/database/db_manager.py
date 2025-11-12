@@ -78,12 +78,39 @@ class DatabaseManager:
             user_count = cursor.fetchone()[0]
             
             if user_count == 0:
-                # 创建默认超级管理员账户
+                # 创建默认超级管理员账户 (密码使用哈希存储)
+                # 为避免循环导入，在函数内部导入Helper
+                from utils.helpers import Helper
+                pwd_hashed = Helper.hash_password('admin123')
                 cursor.execute("""
                     INSERT INTO users (username, password, email, role, is_verified)
                     VALUES (?, ?, ?, ?, ?)
-                """, ('superadmin', 'admin123', 'admin@animemall.com', 'superadmin', 1))
-                print("✓ 已创建默认超级管理员账户 (username: superadmin, password: admin123)")
+                """, ('superadmin', pwd_hashed, 'admin@animemall.com', 'superadmin', 1))
+                print("✓ 已创建默认超级管理员账户 (username: superadmin)")
+            else:
+                # 如果已经有用户，检查是否存在名为 superadmin 的账户且密码为明文，若是则将其哈希化
+                cursor.execute("SELECT password FROM users WHERE username=?", ('superadmin',))
+                row = cursor.fetchone()
+                if row:
+                    stored_pw = row[0]
+                    # 简单判断是否已经是sha256 hex字符串
+                    def looks_hashed(s: str) -> bool:
+                        if not isinstance(s, str):
+                            return False
+                        s = s.strip().lower()
+                        if len(s) != 64:
+                            return False
+                        try:
+                            int(s, 16)
+                            return True
+                        except ValueError:
+                            return False
+
+                    if not looks_hashed(stored_pw):
+                        from utils.helpers import Helper
+                        new_hashed = Helper.hash_password(stored_pw)
+                        cursor.execute("UPDATE users SET password=? WHERE username=?", (new_hashed, 'superadmin'))
+                        print("✓ 已将现有 superadmin 密码哈希化")
             
             # 卖家表
             cursor.execute('''
