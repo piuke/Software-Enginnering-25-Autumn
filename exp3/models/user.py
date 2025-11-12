@@ -5,6 +5,14 @@ User model - 用户模型
 
 from typing import Optional, List
 from datetime import datetime
+from enum import Enum
+
+
+class UserRole(Enum):
+    """用户角色枚举"""
+    USER = "user"              # 普通用户
+    ADMIN = "admin"            # 管理员
+    SUPERADMIN = "superadmin"  # 超级管理员
 
 
 class User:
@@ -16,6 +24,7 @@ class User:
         username (str): 用户名
         password (str): 密码(实际应用中应该加密存储)
         email (str): 邮箱
+        role (UserRole): 用户角色
         is_verified (bool): 是否已实名认证
         profile (dict): 用户资料(兴趣、社交属性等)
         following (List[int]): 关注的用户ID列表
@@ -23,7 +32,7 @@ class User:
         created_at (datetime): 创建时间
     """
     
-    def __init__(self, username: str, password: str, email: str):
+    def __init__(self, username: str, password: str, email: str, role: str = 'user'):
         """
         初始化用户对象
         
@@ -31,17 +40,37 @@ class User:
             username: 用户名
             password: 密码
             email: 邮箱
+            role: 用户角色 (user/admin/superadmin)
         """
         self.user_id: Optional[int] = None
         self.username: str = username
         self.password: str = password
         self.email: str = email
+        self.role: str = role
         self.is_verified: bool = False
         self.profile: dict = {}
         self.following: List[int] = []
         self.followers: List[int] = []
         self.created_at: datetime = datetime.now()
         self.updated_at: datetime = datetime.now()
+    
+    def is_admin(self) -> bool:
+        """
+        检查是否是管理员
+        
+        Returns:
+            bool: 是否是管理员或超级管理员
+        """
+        return self.role in ['admin', 'superadmin']
+    
+    def is_superadmin(self) -> bool:
+        """
+        检查是否是超级管理员
+        
+        Returns:
+            bool: 是否是超级管理员
+        """
+        return self.role == 'superadmin'
     
     def login(self, password: str) -> bool:
         """
@@ -135,6 +164,7 @@ class User:
             'user_id': self.user_id,
             'username': self.username,
             'email': self.email,
+            'role': self.role,
             'is_verified': self.is_verified,
             'profile': self.profile,
             'following_count': len(self.following),

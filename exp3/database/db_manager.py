@@ -65,12 +65,25 @@ class DatabaseManager:
                     username TEXT UNIQUE NOT NULL,
                     password TEXT NOT NULL,
                     email TEXT UNIQUE NOT NULL,
+                    role TEXT DEFAULT 'user',
                     is_verified BOOLEAN DEFAULT 0,
                     profile TEXT,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )
             ''')
+            
+            # 检查是否存在用户，如果不存在则创建超级管理员
+            cursor.execute("SELECT COUNT(*) as count FROM users")
+            user_count = cursor.fetchone()[0]
+            
+            if user_count == 0:
+                # 创建默认超级管理员账户
+                cursor.execute("""
+                    INSERT INTO users (username, password, email, role, is_verified)
+                    VALUES (?, ?, ?, ?, ?)
+                """, ('superadmin', 'admin123', 'admin@animemall.com', 'superadmin', 1))
+                print("✓ 已创建默认超级管理员账户 (username: superadmin, password: admin123)")
             
             # 卖家表
             cursor.execute('''

@@ -1,30 +1,48 @@
-# 快速开始指南
+# 快速开始
 
-## 项目说明
-
-本项目是基于 exp2 中的 UML 设计实现的**二次元网络商场系统**代码框架。
-
-## 当前状态
-
-✅ **已完成**: 完整的代码框架 (约3000行)
-- 8个核心数据模型类
-- 6个业务服务类  
-- 完整的数据库表设计
-- 60+个业务接口定义
-
-⏳ **待实现**: 具体业务逻辑 (所有方法中标记了 TODO)
-
-## 项目结构概览
+## 项目结构
 
 ```
 exp3/
-├── main.py                 # ⭐ 主程序入口
-├── models/                 # 📦 数据模型 (8个类)
-├── services/              # 🔧 业务服务 (6个服务)
-├── database/              # 💾 数据库管理
-├── utils/                 # 🛠️ 工具函数
-└── config/                # ⚙️ 配置文件
+├── main.py           # 主程序
+├── models/           # 数据模型 (User, Product, Order, etc.)
+├── services/         # 业务逻辑 (UserService, ProductService, etc.)
+├── database/         # 数据库管理
+└── utils/            # 工具函数
 ```
+
+## 运行
+
+```bash
+cd exp3
+python main.py
+```
+
+## 数据库
+
+使用 SQLite，文件：`anime_mall.db`（自动创建）
+默认超级管理员：`superadmin` / `admin123`
+
+## 核心模块
+
+**Models**: User, Seller, Product, Order, Auction, Message, Report, Admin
+
+**Services**: UserService, ProductService, OrderService, AuctionService, MessageService, ReportService, AdminService
+
+## 实现建议
+
+找 `# TODO:` 注释实现具体逻辑：
+
+1. **用户系统**: register() → login() → get_user_by_id()
+2. **商品系统**: create_product() → search_products() → get_product_by_id()
+3. **订单系统**: create_order() → pay_order() → get_orders_by_buyer()
+4. **管理系统**: 参考 `ADMIN_SYSTEM_GUIDE.md`
+
+## API 示例
+
+参考 `IMPLEMENTATION_GUIDE.md` 查看详细用法
+
+````
 
 ## 运行方式
 

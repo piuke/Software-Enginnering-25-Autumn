@@ -134,7 +134,6 @@ class UserService:
         Returns:
             Optional[User]: 用户对象
         """
-        # TODO: 实现获取用户逻辑
         from models.user import User
 
         users = self.db.execute_query(
