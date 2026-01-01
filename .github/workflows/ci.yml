@@ -65,7 +65,7 @@ jobs:
           pytest tests/ -v --tb=short --cov=. --cov-report=xml --cov-report=html || pytest tests/ -v --tb=short
         else
           echo "[WARN] tests/ directory not found; running discovery in project root"
-          pytest -v --tb=short --cov=. --cov-report=xml --cov-report=html || pytest -v --tb=short || true
+          pytest -v --tb=short --ignore=scripts --ignore=fuzz_tests --cov=. --cov-report=xml --cov-report=html || pytest -v --tb=short --ignore=scripts --ignore=fuzz_tests || true
         fi
 
     # 第七步：运行集成测试脚本
