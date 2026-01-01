@@ -4,7 +4,7 @@ Validators - 数据验证工具
 """
 
 import re
-from typing import Optional
+from typing import Optional, Tuple
 
 
 class Validator:
@@ -40,7 +40,7 @@ class Validator:
         return bool(re.match(pattern, username))
     
     @staticmethod
-    def validate_password(password: str) -> tuple[bool, Optional[str]]:
+    def validate_password(password: str) -> Tuple[bool, Optional[str]]:
         """
         验证密码强度
         
@@ -48,7 +48,7 @@ class Validator:
             password: 密码
             
         Returns:
-            tuple[bool, Optional[str]]: (是否有效, 错误信息)
+            Tuple[bool, Optional[str]]: (是否有效, 错误信息)
         """
         if len(password) < 6:
             return False, "密码至少6个字符"
