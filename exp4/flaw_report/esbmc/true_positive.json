@@ -1,0 +1,16 @@
+{
+  "1": {
+    "CWE": "CWE-95",
+    "name": "Code_Injection_Eval",
+    "File": "services/product_service.py",
+    "Line": "227",
+    "At": "product.images = eval(product_data['images']) if product_data['images'] else []"
+  },
+  "2": {
+    "CWE": "CWE-369",
+    "name": "Division_By_Zero",
+    "File": "esbmc_verification/test_division_by_zero.py",
+    "Line": "33",
+    "At": "percentage: int = (discount_amount * 100) // original_price"
+  }
+}

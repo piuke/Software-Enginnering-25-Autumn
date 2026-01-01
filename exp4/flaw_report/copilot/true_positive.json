@@ -1,0 +1,50 @@
+{
+  "1": {
+    "CWE": "CWE-95",
+    "name": "Code_Injection_eval",
+    "File": "services/product_service.py",
+    "Line": "227",
+    "At": "product.images = eval(product_data['images']) if product_data['images'] else []",
+    "Reason": "直接对外部可控数据使用 eval()，可被执行任意代码，属于高危代码注入漏洞"
+  },
+  "2": {
+    "CWE": "CWE-362",
+    "name": "Race_Condition_Stock_Deduction",
+    "File": "services/order_service.py",
+    "Line": "42-65",
+    "At": "if product['stock'] < quantity / new_stock = product['stock'] - quantity",
+    "Reason": "典型检查-使用分离的竞态条件，并发请求下可能导致库存为负数"
+  },
+  "3": {
+    "CWE": "CWE-798",
+    "name": "Hardcoded_Credentials_Admin",
+    "File": "database/db_manager.py",
+    "Line": "89",
+    "At": "Helper.hash_password('admin123')",
+    "Reason": "系统中存在硬编码管理员密码，攻击者可直接登录获取最高权限"
+  },
+  "4": {
+    "CWE": "CWE-209",
+    "name": "Information_Disclosure_Exception",
+    "File": "services/product_service.py",
+    "Line": "74",
+    "At": "except Exception as e: print(f'创建商品失败: {str(e)}')",
+    "Reason": "异常信息直接输出，可能泄露数据库结构或内部实现细节"
+  },
+  "5": {
+    "CWE": "CWE-476",
+    "name": "Empty_List_Access",
+    "File": "services/order_service.py",
+    "Line": "83-85",
+    "At": "order = orders[0]",
+    "Reason": "当数据库返回空列表时仍访问 orders[0]，会导致 IndexError，属于真实逻辑缺陷"
+  },
+  "6": {
+    "CWE": "CWE-390",
+    "name": "Error_Handling_Silent_Failure",
+    "File": "services/order_service.py",
+    "Line": "383",
+    "At": "except Exception as e: pass",
+    "Reason": "异常被完全吞掉，导致错误不可观测，严重影响系统可靠性和调试能力"
+  }
+}

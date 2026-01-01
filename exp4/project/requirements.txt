@@ -1,0 +1,17 @@
+# 项目依赖文件
+
+# 核心依赖
+# Python 3.8+
+
+# 数据库
+# sqlite3 (Python内置)
+
+# 代码质量检查工具
+pylint>=2.15.0
+
+# 可选:如果需要GUI界面
+# tkinter (Python内置)
+
+# 可选:如果需要更强大的数据库
+# pymysql>=1.0.0
+# psycopg2>=2.9.0

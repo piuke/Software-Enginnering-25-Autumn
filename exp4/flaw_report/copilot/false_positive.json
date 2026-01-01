@@ -1,0 +1,34 @@
+{
+  "1": {
+    "CWE": "CWE-404",
+    "name": "Resource_Leak_Database_Connection",
+    "File": "database/db_manager.py",
+    "Line": "36-51",
+    "At": "finally: conn.close()",
+    "Reason": "基于假设 close() 抛异常导致资源泄露，但在 Python 中该情况极少发生，且不存在明确的泄露路径"
+  },
+  "2": {
+    "CWE": "CWE-338",
+    "name": "Weak_Random_Generation_Potential",
+    "File": "utils/helpers.py",
+    "Line": "N/A",
+    "At": "需审查是否使用 random 模块生成 token",
+    "Reason": "未提供具体代码实现，仅为推测性安全审查建议，无法确认真实缺陷"
+  },
+  "3": {
+    "CWE": "CWE-916",
+    "name": "Weak_Password_Hash_Potential",
+    "File": "utils/helpers.py",
+    "Line": "N/A",
+    "At": "需审查 Helper.hash_password() 实现",
+    "Reason": "未分析具体哈希函数实现，仅基于假设给出的风险提示，缺乏实际证据"
+  },
+  "4": {
+    "CWE": "CWE-89",
+    "name": "SQL_Injection_Risk_Review_Needed",
+    "File": "services/*.py",
+    "Line": "Multiple",
+    "At": "所有 execute_query 调用点需审查是否存在字符串拼接",
+    "Reason": "未指出具体存在注入风险的代码位置，仅为泛化审查建议，不构成确定性漏洞"
+  }
+}

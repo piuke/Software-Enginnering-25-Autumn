@@ -1,0 +1,72 @@
+{
+  "1": {
+    "CWE": "CWE-89",
+    "name": "SQL_Injection",
+    "File": "defect_cases.py",
+    "Line": "63",
+    "At": "query = f\"SELECT * FROM users WHERE user_id = '{user_id}'\""
+  },
+  "2": {
+    "CWE": "CWE-502",
+    "name": "Unsafe_Deserialization",
+    "File": "defect_cases.py",
+    "Line": "79",
+    "At": "obj = pickle.loads(data_bytes)"
+  },
+  "3": {
+    "CWE": "CWE-798",
+    "name": "Hardcoded_Password",
+    "File": "defect_cases.py",
+    "Line": "93",
+    "At": "DB_PASSWORD = \"admin@123\""
+  },
+  "4": {
+    "CWE": "CWE-330",
+    "name": "Weak_Random_Generation",
+    "File": "defect_cases.py",
+    "Line": "112",
+    "At": "token = str(random.randint(1000000, 9999999))"
+  },
+  "5": {
+    "CWE": "CWE-95",
+    "name": "Eval_Code_Injection",
+    "File": "defect_cases.py",
+    "Line": "139",
+    "At": "result = eval(user_input)"
+  },
+  "6": {
+    "CWE": "CWE-377",
+    "name": "Insecure_Temp_File",
+    "File": "defect_cases.py",
+    "Line": "170",
+    "At": "temp_path = f\"/tmp/tempfile_{random.randint(0, 1000)}.txt\""
+  },
+  "7": {
+    "CWE": "CWE-703",
+    "name": "Assert_In_Production",
+    "File": "defect_cases.py",
+    "Line": "202",
+    "At": "assert value > 0, \"value 必须为正数\""
+  },
+  "8": {
+    "CWE": "CWE-78",
+    "name": "Command_Injection",
+    "File": "defect_cases.py",
+    "Line": "217",
+    "At": "subprocess.call(f\"cat {filename}\", shell=True)"
+  },
+  "9": {
+    "CWE": "CWE-502",
+    "name": "Pickle_Import_Warning",
+    "File": "defect_cases.py",
+    "Line": "18",
+    "At": "import pickle"
+  },
+  "10": {
+    "CWE": "CWE-78",
+    "name": "Subprocess_Import_Warning",
+    "File": "defect_cases.py",
+    "Line": "215",
+    "At": "import subprocess"
+  }
+}
