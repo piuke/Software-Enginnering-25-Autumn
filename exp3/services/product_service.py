@@ -4,6 +4,7 @@ Product Service - 商品服务层
 """
 
 from typing import Optional, List, Dict
+import json
 from models.product import Product, ProductStatus
 
 from utils.exceptions import (
@@ -224,7 +225,10 @@ class ProductService:
             
             # 设置其他属性
             product.product_id = product_data['product_id']
-            product.images = eval(product_data['images']) if product_data['images'] else []
+            try:
+                product.images = json.loads(product_data['images']) if product_data['images'] else []
+            except json.JSONDecodeError:
+                product.images = []
             product.status = ProductStatus(product_data['status'])
             product.auctionable = bool(product_data['auctionable'])
             product.view_count = product_data['view_count'] + (1 if increment_view else 0)

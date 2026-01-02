@@ -381,8 +381,8 @@ class OrderService:
             """
             self.db.execute_insert(insert_query, (sender_id, receiver_id, content))
         except Exception as e:
-            # 静默失败，不影响订单主流程
-            pass
+            # 记录错误但不中断流程
+            print(f"发送服务消息失败: {str(e)}")
     
     def get_order_by_id(self, order_id: int) -> Optional[Order]:
         """

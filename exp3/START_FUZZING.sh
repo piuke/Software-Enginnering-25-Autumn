@@ -1,20 +1,20 @@
 #!/bin/bash
 
-# 快速启动5小时+ 模糊测试脚本
+# 快速启动8小时+ 模糊测试脚本
 
 VENV="/home/fujisawa/Software-Enginnering-25-Autumn/.venv/bin/python"
 PROJECT_DIR="/home/fujisawa/Software-Enginnering-25-Autumn/exp3"
 CORPUS="$PROJECT_DIR/fuzz_corpus_extended"
 
 echo "╔════════════════════════════════════════════════════════════╗"
-echo "║  🧪 启动长时间模糊测试 (5小时+)                           ║"
+echo "║  🧪 启动长时间模糊测试 (8小时+)                           ║"
 echo "╚════════════════════════════════════════════════════════════╝"
 echo ""
 
 mkdir -p "$CORPUS"
 
 echo "📊 测试配置:"
-echo "  • 运行时间: 5 小时 (18000 秒)"
+echo "  • 运行时间: 8 小时 (21600 秒)"
 echo "  • 工具: Atheris + libFuzzer"
 echo "  • 覆盖模块: 所有"
 echo "  • 语料库: $CORPUS"
@@ -23,10 +23,10 @@ echo ""
 echo "⏱️  开始时间: $(date '+%Y-%m-%d %H:%M:%S')"
 echo ""
 
-# 运行5小时的模糊测试
-timeout 18000 $VENV "$PROJECT_DIR/fuzz_tests/fuzz_long_run.py" \
+# 运行8小时的模糊测试
+timeout 21600 $VENV "$PROJECT_DIR/fuzz_tests/fuzz_long_run.py" \
     -timeout=2 \
-    -max_total_time=18000 \
+    -max_total_time=21600 \
     -rss_limit_mb=2048 \
     -max_len=500000 \
     "$CORPUS"

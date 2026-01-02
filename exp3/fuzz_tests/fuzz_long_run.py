@@ -360,7 +360,7 @@ def main():
     print("╚════════════════════════════════════════════════════════╝")
     print("")
     print(f"开始时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    print(f"预计结束: {(datetime.now() + timedelta(hours=5)).strftime('%Y-%m-%d %H:%M:%S')}")
+    print(f"预计结束: {(datetime.now() + timedelta(hours=8)).strftime('%Y-%m-%d %H:%M:%S')}")
     print("")
     
     # 设置 atheris 运行参数以实现长时间测试
